@@ -1,0 +1,36 @@
+{:paths ["src" "test" "resources" "classes"]
+ :mvn/repos {"central" {:url "https://repo1.maven.org/maven2/"}
+             "clojars" {:url "https://clojars.org/repo/"}}
+ :deps {}
+ :aliases
+ {:core {:extra-deps
+         {org.clojure/clojure  {:mvn/version "1.10.0"}
+          io.pedestal/pedestal.service {:mvn/version "0.5.7"}
+          io.pedestal/pedestal.route   {:mvn/version "0.5.7"}
+          io.pedestal/pedestal.jetty   {:mvn/version "0.5.7"}
+          ch.qos.logback/logback-classic   {:mvn/version "1.2.3"
+                                            :exclusions [org.slf4j/slf4j-api]}
+          org.slf4j/jul-to-slf4j {:mvn/version "1.7.25"}
+          org.slf4j/jcl-over-slf4j {:mvn/version "1.7.25"}
+          org.slf4j/log4j-over-slf4j {:mvn/version "1.7.25"}}}
+  :dev {:extra-deps {}}
+  :optimized {:extra-deps {}}
+  :local {:extra-deps {}}
+  :mem {:jvm-opts ["-Xms1024m" "-Xmx11998m"]}
+  :native-image {:main-opts ["-m clj.native-image hello-world.server"
+                             "--initialize-at-build-time"
+                         ;     "--enable-url-protocols=http"
+                         ;     "--enable-http"
+                         ;     "--allow-incomplete-classpath"
+                        ;      "--allow-incomplete-classpath"
+                        ;      "-da"
+                             "--no-fallback"
+                             "--report-unsupported-elements-at-runtime"
+                             "-H:Name=app.native"
+                             ; "--dry-run"
+                             ]
+                 :jvm-opts ["-Dclojure.compiler.direct-linking=true"]
+                 :extra-deps
+                 {clj.native-image
+                  {:git/url "https://github.com/taylorwood/clj.native-image.git"
+                   :sha "b3823a48be75122b9671c86ce5353a85589ef15f"}}}}}
